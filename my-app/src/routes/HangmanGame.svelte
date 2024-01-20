@@ -17,12 +17,13 @@
     let isGameOver = false;
   
     const socket = io('http://localhost:3000');
-  
+    
+  // Evento para iniciar el juego
     socket.on('startGame', (/** @type {string} */ newWord) => {
       word = newWord.toUpperCase();
       hiddenWord = Array(word.length).fill('_');
     });
-  
+  // Evento para adivinar una letra
     socket.on('guessLetter', (/** @type {string} */ letter) => {
       if (!isGameOver && guessedLetters.indexOf(letter) === -1) {
         guessedLetters.push(letter);
@@ -40,18 +41,18 @@
         checkGameStatus();
       }
     });
-  
+  // Función para obtener una palabra desde la API
     const fetchWord = async () => {
       const response = await fetch('https://api.example.com/word');
       const data = await response.json();
       const newWord = data.word;
       socket.emit('startGame', newWord);
     };
-  
+  // Función para manejar la adivinanza de una letra
     const handleLetterGuess = (/** @type {string} */ letter) => {
       socket.emit('guessLetter', letter);
     };
-  
+  // Función para verificar el estado del juego
     const checkGameStatus = () => {
       if (hiddenWord.join('') === word) {
         isGameOver = true;
@@ -108,6 +109,7 @@
   }
 </style>
 
+
 <div>
   <h1>Hangman Game</h1>
   <p>Incorrect Attempts: {incorrectAttempts}/{maxAttempts}</p>
@@ -123,7 +125,6 @@
     <p class="game-over">{isGameOver ? 'Game Over' : 'You Win!'}</p>
   {/if}
 </div>
- </style>
   
   <div>
     <h1>Hangman Game</h1>
