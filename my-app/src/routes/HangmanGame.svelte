@@ -1,9 +1,16 @@
 <script>
     import { onMount } from 'svelte';
+    // @ts-ignore
     import { io } from 'socket.io-client';
   
     let word = '';
+    /**
+     * @type {any[]}
+     */
     let hiddenWord = [];
+    /**
+     * @type {any[]}
+     */
     let guessedLetters = [];
     let incorrectAttempts = 0;
     let maxAttempts = 6;
@@ -11,12 +18,12 @@
   
     const socket = io('http://localhost:3000');
   
-    socket.on('startGame', (newWord) => {
+    socket.on('startGame', (/** @type {string} */ newWord) => {
       word = newWord.toUpperCase();
       hiddenWord = Array(word.length).fill('_');
     });
   
-    socket.on('guessLetter', (letter) => {
+    socket.on('guessLetter', (/** @type {string} */ letter) => {
       if (!isGameOver && guessedLetters.indexOf(letter) === -1) {
         guessedLetters.push(letter);
   
@@ -41,7 +48,7 @@
       socket.emit('startGame', newWord);
     };
   
-    const handleLetterGuess = (letter) => {
+    const handleLetterGuess = (/** @type {string} */ letter) => {
       socket.emit('guessLetter', letter);
     };
   
