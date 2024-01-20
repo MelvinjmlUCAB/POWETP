@@ -66,8 +66,64 @@
   </script>
   
   <style>
-    /* Add your CSS styles here */
-  </style>
+   div {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+
+  button {
+    font-size: 16px;
+    margin: 5px;
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .game-over {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+  }
+</style>
+
+<div>
+  <h1>Hangman Game</h1>
+  <p>Incorrect Attempts: {incorrectAttempts}/{maxAttempts}</p>
+  <p>Guessed Letters: {guessedLetters.join(', ')}</p>
+  <p>{hiddenWord.join(' ')}</p>
+  {#if !isGameOver}
+    <div>
+      {#each 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' as letter}
+        <button on:click={() => handleLetterGuess(letter)}>{letter}</button>
+      {/each}
+    </div>
+  {:else}
+    <p class="game-over">{isGameOver ? 'Game Over' : 'You Win!'}</p>
+  {/if}
+</div>
+ </style>
   
   <div>
     <h1>Hangman Game</h1>
